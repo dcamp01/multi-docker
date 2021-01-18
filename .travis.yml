@@ -3,7 +3,6 @@ sudo: required
 services:
   - docker
 
-
 before_install:
   #get build context from client directory
   - docker build -t djxc65/react-test -f ./client/Dockerfile.dev ./client
@@ -17,10 +16,10 @@ after_success:
   - docker build -t djxc65/multi-nginx ./nginx
   - docker build -t djxc65/multi-server ./server
   - docker build -t djxc65/multi-worker ./worker
-#login to docker CLI using env variable in Travis
+  #login to docker CLI using env variable in Travis
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
-#push images to docker hub
-- docker push djxc65/multi-client
-- docker push djxc65/multi-nginx
-- docker push djxc65/multi-server
-- docker push djxc65/multi-worker
+  #push images to docker hub
+  - docker push djxc65/multi-client
+  - docker push djxc65/multi-nginx
+  - docker push djxc65/multi-server
+  - docker push djxc65/multi-worker
