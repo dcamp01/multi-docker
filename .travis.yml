@@ -1,3 +1,4 @@
+language: generic
 sudo: required
 services:
   - docker
@@ -5,21 +6,21 @@ services:
 
 before_install:
   #get build context from client directory
-  - docker build -t dcamp01/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t djxc65/react-test -f ./client/Dockerfile.dev ./client
 
 script:
   #ensure npm will close by adding coverage flag
-  - docker run dcamp01/react-test npm test -- --coverage
+  - docker run -e CI=true djxc65/react-test npm test
 
 after_success:
-  - docker build -t dcamp01/multi-client ./client
-  - docker build -t dcamp01/multi-nginx ./nginx
-  - docker build -t dcamp01/multi-server ./server
-  - docker build -t dcamp01/multi-worker ./worker
+  - docker build -t djxc65/multi-client ./client
+  - docker build -t djxc65/multi-nginx ./nginx
+  - docker build -t djxc65/multi-server ./server
+  - docker build -t djxc65/multi-worker ./worker
 #login to docker CLI using env variable in Travis
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 #push images to docker hub
-- docker push dcamp01/multi-client
-- docker push dcamp01/multi-nginx
-- docker push dcamp01/multi-server
-- docker push dcamp01/multi-worker
+- docker push djxc65/multi-client
+- docker push djxc65/multi-nginx
+- docker push djxc65/multi-server
+- docker push djxc65/multi-worker
